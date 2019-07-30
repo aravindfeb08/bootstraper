@@ -1,6 +1,5 @@
 package com.home.search.Controller;
 
-import com.home.search.Dao.BooksRepository;
 import com.home.search.Form.BooksForm;
 import com.home.search.Model.Book;
 import com.home.search.Model.BookImpl;
@@ -21,15 +20,15 @@ import java.util.List;
 @RequestMapping("/books")
 public class BooksController {
 
-    @Autowired
-    private BooksRepository booksRepository;
+   /* @Autowired
+    private BooksRepository booksRepository;*/
 
     @RequestMapping("/hello")
     public String sayHello() {
         return "Hello Book Store";
     }
 
-    @RequestMapping("/all")
+    /*@RequestMapping("/all")
     public List<Book> getAllBooks() {
 
         //JSONObject json = new JSONObject();
@@ -45,14 +44,14 @@ public class BooksController {
 
     public ResponseEntity<String> saveBook(@ModelAttribute("booksForm")BooksForm booksForm) {
 
-       /* Books book = new Books();
+       *//* Books book = new Books();
         book.setTitle(booksForm.getTitle());
         book.setAuthor(booksForm.getAuthor());
         book.setCategory(booksForm.getCategory());
         book.setPrice(booksForm.getPrice());
-        booksRepository.save(book);*/
+        booksRepository.save(book);*//*
 
         return new ResponseEntity<>("success", HttpStatus.OK);
-    }
+    }*/
 
 }

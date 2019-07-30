@@ -2,12 +2,16 @@ package com.home.search.Model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 //@Document(indexName = "my_index", type = "books")
-@Document
+@Document(collection = "books")
 public class BookImpl implements Book {
 	
 	@Id
+	@Field("primaryId")
+	private String primaryId;
+
     private String bookId;
     private String title;
     private String author;
@@ -53,8 +57,5 @@ public class BookImpl implements Book {
 		this.category = category;
 		this.price = price;
 	}
-	
-    
-	
 
 }

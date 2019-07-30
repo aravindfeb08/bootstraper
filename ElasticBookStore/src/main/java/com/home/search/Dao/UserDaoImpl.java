@@ -10,7 +10,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import com.home.search.Model.User;
+import org.springframework.stereotype.Repository;
 
+@Repository("UserDao")
 public class UserDaoImpl implements UserDao {
 
 	private static final Log LOG = LogFactory.getLog(UserDaoImpl.class);
