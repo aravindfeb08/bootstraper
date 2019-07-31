@@ -50,13 +50,17 @@ public class JwtTokenUtil implements Serializable {
 		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
 	}
 
+    public String getUserIdFromToken(String token) {
+        return getClaimFromToken(token, Claims::getId);
+    }
+
     //check if the token has expired
 	private Boolean isTokenExpired(String token) {
 		final Date expiration = getExpirationDateFromToken(token);
 		return expiration.before(new Date());
 	}
 
-	//generate token for user
+	/*//generate token for user
 	public String generateToken(UserDetails userDetails) {
 		Map<String, Object> claims = new HashMap<>();
 		return doGenerateToken(claims, userDetails.getUsername());
@@ -71,13 +75,58 @@ public class JwtTokenUtil implements Serializable {
 		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
 				.signWith(SignatureAlgorithm.HS512, secret).compact();
-	}
+	}*/
 
-//validate token
+    public String generateToken(Authentication authentication, String Id, String userName) {
+        final String authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+        return Jwts.builder()
+                .setId(Id)
+                .setSubject(userName)
+                .claim(AUTHORITIES_KEY, authorities)
+                .setIssuer("http://elasticbookstore.com")
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+                .compact();
+    }
+
+    //validate token
 	public Boolean validateToken(String token, UserDetails userDetails) {
 		final String username = getUsernameFromToken(token);
 		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
+
+    public String parseToken(String token) {
+        List<String> scopesList = null;
+        String scope = null;
+        try {
+            Claims body = Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token)
+                    .getBody();
+            //String scope = body.get("scopes").toString();
+            scopesList = new ArrayList<String>(Arrays.asList(body.get("scopes").toString()));
+            if (!scopesList.isEmpty()) {
+                for (String scop : scopesList) {
+                    scope = scop;
+                    scope = scope.replace("[{", "");
+                    scope = scope.replace("}]", "");
+                    scope = scope.replace("authority=", "");
+                }
+            }
+
+            //User u = new User();
+            //u.setUsername(body.getSubject());
+            //.setId(Long.parseLong((String) body.get("userId")));
+            ///.setRole((String) body.get("role"));
+            return scope;
+
+        } catch (JwtException | ClassCastException e) {
+            return null;
+        }
+    }
 
 	UsernamePasswordAuthenticationToken getAuthentication(final String token, final Authentication existingAuth, final UserDetails userDetails) {
 

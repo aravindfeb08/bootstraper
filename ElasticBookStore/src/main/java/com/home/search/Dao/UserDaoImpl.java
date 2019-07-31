@@ -156,4 +156,17 @@ public class UserDaoImpl implements UserDao {
 		return userName;
 	}
 
+	@Override
+	public User getUserByUserId(String userId) {
+		User user = null;
+		try {
+			Query query = new Query(Criteria.where("userId").is(userId));
+			user = operations.findOne(query, User.class, USER);
+		} catch (Exception exp) {
+			exp.printStackTrace();
+			LOG.error("Exception in getUserByEmail method : " + exp.getMessage());
+		}
+		return user;
+	}
+
 }

@@ -116,4 +116,16 @@ public class UserServiceImpl implements UserService {
 		}
 		return user;
 	}
+
+	@Override
+	public User getUserByUserId(String userId) {
+		User user = null;
+		try {
+			user = userDao.getUserByUserId(userId);
+		} catch (Exception exp) {
+			exp.printStackTrace();
+			LOG.equals("Exception in getUserByEmail method : " + exp);
+		}
+		return user;
+	}
 }

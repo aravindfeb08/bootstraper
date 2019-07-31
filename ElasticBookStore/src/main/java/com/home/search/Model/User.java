@@ -34,7 +34,7 @@ public class User implements UserDetails {
     @Field("password")
     private String password;
 
-    @Field("dateOf_birth")
+    @Field("date_of_birth")
     private String dateOfBirth;
 
     private Set<Role> roles;
