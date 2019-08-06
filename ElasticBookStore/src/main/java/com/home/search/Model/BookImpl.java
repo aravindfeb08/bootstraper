@@ -17,8 +17,7 @@ public class BookImpl implements Book {
     private String author;
     private String category;
     private String price;
-    
-	
+
 	public String getBookId() {
 		return bookId;
 	}

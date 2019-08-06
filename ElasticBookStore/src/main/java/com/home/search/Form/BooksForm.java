@@ -2,10 +2,19 @@ package com.home.search.Form;
 
 public class BooksForm {
 
+    private String bookId;
     private String title;
     private String author;
     private String category;
     private String price;
+
+    public String getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
+    }
 
     public String getTitle() {
         return title;

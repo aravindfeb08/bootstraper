@@ -1,7 +1,6 @@
 package com.home.search.Service;
 
 import com.home.search.Model.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService {
 	

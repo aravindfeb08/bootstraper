@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/authentication")
+@RequestMapping("/user")
 public class UserController {
 
     @RequestMapping("/hello")
@@ -14,13 +14,4 @@ public class UserController {
         return "Hello World";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "Hello World";
-    }
-
-    @GetMapping("/logout")
-    public String logout() {
-        return "Hello World";
-    }
 }
