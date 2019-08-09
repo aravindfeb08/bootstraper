@@ -1,5 +1,6 @@
 package com.home.search.Service;
 
+import com.home.search.Model.Role;
 import com.home.search.Model.User;
 
 public interface UserService {
@@ -21,6 +22,8 @@ public interface UserService {
 	User getUserByEmail(String email);
 
 	User getUserByUserId(String userId);
+
+	Role findByRole(String roles);
 
 	
 }

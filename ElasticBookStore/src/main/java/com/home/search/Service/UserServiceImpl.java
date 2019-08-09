@@ -1,5 +1,6 @@
 package com.home.search.Service;
 
+import com.home.search.Model.Role;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,5 +123,16 @@ public class UserServiceImpl implements UserService {
 			LOG.equals("Exception in getUserByEmail method : " + exp);
 		}
 		return user;
+	}
+
+	@Override
+	public Role findByRole(String roles) {
+		Role role = null;
+		try{
+			role = userDao.findByRole(roles);
+		}catch (Exception exp){
+			exp.printStackTrace();
+		}
+		return role;
 	}
 }

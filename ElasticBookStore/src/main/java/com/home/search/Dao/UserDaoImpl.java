@@ -2,6 +2,7 @@ package com.home.search.Dao;
 
 import java.util.List;
 
+import com.home.search.Model.Role;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -21,6 +22,8 @@ public class UserDaoImpl implements UserDao {
 
 	MongoOperations operations;
 	private static final String USER = "user";
+	private static final String ROLE = "role";
+
 
 	public UserDaoImpl(MongoOperations operations) {
 		this.operations = operations;
@@ -167,6 +170,18 @@ public class UserDaoImpl implements UserDao {
 			LOG.error("Exception in getUserByEmail method : " + exp.getMessage());
 		}
 		return user;
+	}
+
+	@Override
+	public Role findByRole(String roles) {
+		Role role = null;
+		try{
+			Query query = new Query(Criteria.where("role").is(roles));
+			role = operations.findOne(query,Role.class,ROLE);
+		}catch (Exception exp){
+			exp.printStackTrace();
+		}
+		return role;
 	}
 
 }
