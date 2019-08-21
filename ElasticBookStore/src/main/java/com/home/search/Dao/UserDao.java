@@ -1,6 +1,6 @@
 package com.home.search.Dao;
 
-import com.home.search.Model.Role;
+import com.home.search.Model.Roles;
 import com.home.search.Model.User;
 
 public interface UserDao {
@@ -29,8 +29,9 @@ public interface UserDao {
 
     User getUserByUserId(String userId);
 
-    Role findByRole(String roles);
+    Roles findByRole(String roles);
 
+    boolean saveRoles(Roles role);
 
 
 }

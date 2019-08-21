@@ -2,7 +2,7 @@ package com.home.search.Dao;
 
 import java.util.List;
 
-import com.home.search.Model.Role;
+import com.home.search.Model.Roles;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -22,7 +22,9 @@ public class UserDaoImpl implements UserDao {
 
 	MongoOperations operations;
 	private static final String USER = "user";
-	private static final String ROLE = "role";
+	private static final String ROLE = "roles";
+
+
 
 
 	public UserDaoImpl(MongoOperations operations) {
@@ -173,15 +175,28 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public Role findByRole(String roles) {
-		Role role = null;
+	public Roles findByRole(String roles) {
+		Roles role = null;
 		try{
 			Query query = new Query(Criteria.where("role").is(roles));
-			role = operations.findOne(query,Role.class,ROLE);
+			role = operations.findOne(query,Roles.class,ROLE);
 		}catch (Exception exp){
 			exp.printStackTrace();
 		}
 		return role;
+	}
+
+	@Override
+	public boolean saveRoles(Roles role) {
+		boolean isSaved = false;
+		try {
+			operations.save(role, ROLE);
+			isSaved = true;
+		} catch (Exception exp) {
+			exp.printStackTrace();
+			LOG.error("Exception in saveUser method : " + exp.getMessage());
+		}
+		return isSaved;
 	}
 
 }

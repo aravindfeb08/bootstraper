@@ -5,10 +5,12 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Document("User")
 public class User implements UserDetails {
@@ -39,7 +41,7 @@ public class User implements UserDetails {
     private String dateOfBirth;
 
     @DBRef
-    private Set<Role> roles;
+    private Set<Roles> role;
 
     public String getPrimaryId() {
         return primaryId;
@@ -89,17 +91,20 @@ public class User implements UserDetails {
         this.userName = userName;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Set<Roles> getRoles() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRoles(Set<Roles> role) {
+        this.role = role;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return getRoles()
+                .stream()
+                .map(role -> new SimpleGrantedAuthority(role.getRole()))
+                .collect(Collectors.toList());
     }
 
     public String getPassword() {
@@ -108,7 +113,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return userName;
     }
 
     @Override

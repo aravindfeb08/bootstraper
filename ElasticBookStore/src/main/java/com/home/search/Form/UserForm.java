@@ -10,6 +10,7 @@ public class UserForm {
     private String password;
     private String dateOfBirth;
     private String role;
+    private String roleId;
 
     public String getUserId() {
         return userId;
@@ -73,5 +74,13 @@ public class UserForm {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 }

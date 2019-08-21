@@ -1,6 +1,6 @@
 package com.home.search.Service;
 
-import com.home.search.Model.Role;
+import com.home.search.Model.Roles;
 import com.home.search.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,17 +27,15 @@ public class BasicUserDetails implements UserDetailsService {
         if(user == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
-
         List<GrantedAuthority> authorities = getUserAuthority(user.getRoles());
         return buildUserForAuthentication(user, authorities);
     }
 
-    private List<GrantedAuthority> getUserAuthority(Set<Role> userRoles) {
+    private List<GrantedAuthority> getUserAuthority(Set<Roles> userRoles) {
         Set<GrantedAuthority> roles = new HashSet<>();
         userRoles.forEach((role) -> {
             roles.add(new SimpleGrantedAuthority(role.getRole()));
         });
-
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles);
         return grantedAuthorities;
     }

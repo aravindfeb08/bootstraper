@@ -1,6 +1,6 @@
 package com.home.search.Service;
 
-import com.home.search.Model.Role;
+import com.home.search.Model.Roles;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,13 +126,25 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Role findByRole(String roles) {
-		Role role = null;
+	public Roles findByRole(String role) {
+		Roles role1 = null;
 		try{
-			role = userDao.findByRole(roles);
+			role1 = userDao.findByRole(role);
 		}catch (Exception exp){
 			exp.printStackTrace();
 		}
-		return role;
+		return role1;
 	}
+
+	public boolean saveRoles(Roles role){
+		boolean isSaved = false;
+		try {
+			isSaved = userDao.saveRoles(role);
+		} catch (Exception exp) {
+			exp.printStackTrace();
+			LOG.equals("Exception in saveUser method : " + exp);
+		}
+		return isSaved;
+	}
+
 }

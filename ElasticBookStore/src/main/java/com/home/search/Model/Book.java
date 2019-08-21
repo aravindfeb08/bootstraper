@@ -21,6 +21,5 @@ public interface Book {
     public String getPrice();
 
     public void setPrice(String price);
-    
-    
+
 }

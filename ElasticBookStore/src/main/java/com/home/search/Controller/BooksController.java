@@ -5,14 +5,15 @@ import com.home.search.Model.Book;
 import com.home.search.Model.BookImpl;
 
 import net.sf.json.JSONObject;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,38 +21,35 @@ import java.util.List;
 @RequestMapping("/books")
 public class BooksController {
 
-   /* @Autowired
-    private BooksRepository booksRepository;*/
+    private static final Log LOG = LogFactory.getLog(BooksController.class);
 
     @RequestMapping("/hello")
     public String sayHello() {
         return "Hello Book Store";
     }
 
-    /*@RequestMapping("/all")
-    public List<Book> getAllBooks() {
+    @PostMapping("/addbook")
+    public ResponseEntity<String> addbooks(@ModelAttribute("bookForm") BooksForm booksForm, HttpServletRequest request, HttpServletResponse response) {
 
-        //JSONObject json = new JSONObject();
-        List<Book> allBooks = new ArrayList<>();
-        allBooks.add(new BookImpl("101","origin of species","charles darwin","species","200$"));
-        allBooks.add(new BookImpl("102","the alchemist","paulo cehlo","motivation","150$"));
-        allBooks.add(new BookImpl("103","Bible","jesus","fiction","180$"));
-        booksRepository.findAll().forEach(allBooks::add);
-        //json.put("allBooks",allBooks);
-        //return new ResponseEntity<>(json.toString(), HttpStatus.OK);
-        return allBooks;
+        JSONObject json = new JSONObject();
+        String role = request.getHeader("role");
+        try{
+            if (("ADMIN").equals(role)){
+                Book book = new BookImpl();
+                book.setBookId(booksForm.getBookId());
+                book.setAuthor(booksForm.getAuthor());
+                book.setCategory(booksForm.getCategory());
+                book.setPrice(booksForm.getPrice());
+                book.setTitle(booksForm.getTitle());
+
+            }else {
+                json.put("failure","Unauthroized to access this url");
+            }
+        }catch (Exception exp){
+            exp.printStackTrace();
+        }
+        return new ResponseEntity<>(json.toString(), HttpStatus.OK);
     }
 
-    public ResponseEntity<String> saveBook(@ModelAttribute("booksForm")BooksForm booksForm) {
-
-       *//* Books book = new Books();
-        book.setTitle(booksForm.getTitle());
-        book.setAuthor(booksForm.getAuthor());
-        book.setCategory(booksForm.getCategory());
-        book.setPrice(booksForm.getPrice());
-        booksRepository.save(book);*//*
-
-        return new ResponseEntity<>("success", HttpStatus.OK);
-    }*/
 
 }

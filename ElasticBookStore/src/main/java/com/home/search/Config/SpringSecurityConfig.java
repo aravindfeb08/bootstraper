@@ -37,8 +37,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Autowired
     private UserDetailsService userDetailsService;
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+    /*@Autowired
+    private JwtRequestFilter jwtRequestFilter;*/
 
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
      // configure AuthenticationManager so that it knows from where to load
@@ -52,10 +52,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
     @Override
+    @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public JwtRequestFilter authenticationTokenFilterBean() {
+        return new JwtRequestFilter();
     }
 
     @Override
@@ -71,6 +76,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // Add a filter to validate the tokens with every request
-        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }
 }

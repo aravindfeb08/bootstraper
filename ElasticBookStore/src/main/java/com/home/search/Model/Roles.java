@@ -5,25 +5,33 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-@Document(collection = "role")
-public class Role {
+@Document(collection = "roles")
+public class Roles {
 
     @Id
     @Field("primaryId")
     private String primaryId;
 
-    @Field("id")
-    private String id;
+    @Field("role_id")
+    private String roleId;
 
     @Field("role")
     private String role;
 
-    public String getId() {
-        return id;
+    public String getPrimaryId() {
+        return primaryId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPrimaryId(String primaryId) {
+        this.primaryId = primaryId;
+    }
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 
     public String getRole() {
@@ -33,5 +41,4 @@ public class Role {
     public void setRole(String role) {
         this.role = role;
     }
-
 }
