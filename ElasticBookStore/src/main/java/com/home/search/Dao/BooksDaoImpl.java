@@ -9,6 +9,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository("BooksDao")
 public class BooksDaoImpl implements BooksDao {
 
@@ -30,6 +32,7 @@ public class BooksDaoImpl implements BooksDao {
             isSaved = true;
         } catch (Exception exp) {
             exp.printStackTrace();
+            LOG.error("Exception in saveBook method : "+exp);
         }
         return isSaved;
     }
@@ -44,8 +47,48 @@ public class BooksDaoImpl implements BooksDao {
 
         } catch (Exception exp) {
             exp.printStackTrace();
+            LOG.error("Exception in deleteBook method : "+exp);
         }
         return isRemoved;
     }
+
+    @Override
+    public boolean deleteBook(Book book) throws Exception {
+        boolean isRemoved = false;
+        try {
+            this.operations.remove(book);
+            isRemoved = true;
+
+        } catch (Exception exp) {
+            exp.printStackTrace();
+            LOG.error("Exception in deleteBook method : "+exp);
+        }
+        return isRemoved;
+    }
+
+    public BookImpl findBook(String bookId) throws Exception {
+        BookImpl newBook = null;
+        try{
+            Query query = new Query(Criteria.where("bookId").is(bookId));
+            newBook = this.operations.findOne(query, BookImpl.class, BOOK);
+        }catch (Exception exp){
+            exp.printStackTrace();
+            LOG.error("Exception in findBook method : "+exp);
+        }
+        return newBook;
+    }
+
+    @Override
+    public List<BookImpl> findAllBooks() throws Exception {
+        List<BookImpl> allBooks = null;
+        try{
+
+        }catch (Exception exp){
+            exp.printStackTrace();
+            LOG.error("Exception in findAllBooks method : "+exp);
+        }
+        return null;
+    }
+
 
 }
