@@ -75,6 +75,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 // Spring Security Configurations successfully.
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 logger.info("authenticated user " + username + ", setting security context");
+                if (("ROLE_USER").equals(roleType)) {
+                    request.setAttribute("userId", userId);
+                }else if (("ROLE_ADMIN").equals(roleType)) {
+                    request.setAttribute("adminId", userId);
+                }else if (("ROLE_SUPERADMIN").equals(roleType)) {
+                    request.setAttribute("superAdminId", userId);
+                }else if (("ROLE_SUBUSER").equals(roleType)) {
+                    request.setAttribute("subUserId", userId);
+                }
             } else {
                 logger.warn("######################### the token is expired and not valid anymore ######################");
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT token has expired. Please Login and continue!");

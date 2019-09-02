@@ -11,16 +11,16 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("BooksDao")
-public class BooksDaoImpl implements BooksDao {
+@Repository("BookDao")
+public class BookDaoImpl implements BookDao {
 
-    private static final Log LOG = LogFactory.getLog(BooksDaoImpl.class);
+    private static final Log LOG = LogFactory.getLog(BookDaoImpl.class);
 
     MongoOperations operations;
 
     private static final String BOOK = "book";
 
-    public BooksDaoImpl(MongoOperations operations) {
+    public BookDaoImpl(MongoOperations operations) {
         this.operations = operations;
     }
 
@@ -88,6 +88,19 @@ public class BooksDaoImpl implements BooksDao {
             LOG.error("Exception in findAllBooks method : "+exp);
         }
         return null;
+    }
+
+    @Override
+    public boolean updateBook(Book book) throws Exception {
+        boolean isUpdated = false;
+        try {
+            this.operations.save(book, BOOK);
+            isUpdated = true;
+        } catch (Exception exp) {
+            exp.printStackTrace();
+            LOG.error("Exception in saveBook method : "+exp);
+        }
+        return isUpdated;
     }
 
 

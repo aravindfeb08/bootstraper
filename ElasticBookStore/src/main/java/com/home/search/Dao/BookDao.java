@@ -5,7 +5,7 @@ import com.home.search.Model.BookImpl;
 
 import java.util.List;
 
-public interface BooksDao {
+public interface BookDao {
 
     boolean saveBook(Book book) throws Exception;
 
@@ -16,5 +16,7 @@ public interface BooksDao {
     BookImpl findBook(String bookId) throws Exception;
 
     List<BookImpl> findAllBooks() throws Exception;
+
+    boolean updateBook(Book book) throws Exception;
 
 }

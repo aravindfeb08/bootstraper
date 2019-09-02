@@ -9,7 +9,7 @@ import com.home.search.Dao.UserDao;
 import com.home.search.Model.User;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("UserService")
 public class UserServiceImpl implements UserService {
 
 	private static final Log LOG = LogFactory.getLog(UserServiceImpl.class);

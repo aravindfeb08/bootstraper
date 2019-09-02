@@ -1,6 +1,6 @@
 package com.home.search.Form;
 
-public class BooksForm {
+public class BookForm {
 
     private String bookId;
     private String title;

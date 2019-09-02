@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-//@Document(indexName = "my_index", type = "books")
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "book", type = "books", shards = 1, replicas = 0, refreshInterval = "-1")
 @Document(collection = "books")
 public class BookImpl implements Book {
 
